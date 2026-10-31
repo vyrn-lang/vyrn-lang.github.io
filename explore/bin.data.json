@@ -1,0 +1,1 @@
+{"page":"/explore/:package","title":"examples/bin — the Vyrn registry","props":{"slug":"bin","name":"examples/bin","kind":"project","summary":"The wire types: the validated records and scalars that cross the RPC boundary and define the persisted-file shape.","exports":11,"deps":12,"href":"/explore/bin.html"},"params":{"package":"bin"}}

@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head><link rel="alternate" type="application/rss+xml" title="Vyrn releases" href="../releases.xml"><link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<meta charset="utf-8"><meta name="color-scheme" content="light dark"><meta name="theme-color" media="(prefers-color-scheme: light)" content="oklch(0.97 0.005 255)"><meta name="theme-color" media="(prefers-color-scheme: dark)" content="oklch(0.115 0.01 262)"><script>try{var r=document.documentElement,t=localStorage.getItem("vyrn.theme");if(t==="light"||t==="dark")r.setAttribute("data-theme",t);if(sessionStorage.getItem("vyrn.mast")==="compact")r.classList.add("idecompact");r.setAttribute("data-js","on")}catch(e){document.documentElement.setAttribute("data-js","on")}</script>
+<title>Records, enums, match — the Vyrn guide</title>
+<link rel="stylesheet" href="../style.css"><script type="module" src="../theme.js"></script><script type="module" src="../widgets.js"></script><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="A record is a shape. An enum is a choice. match covers every case, and the compiler counts them."><link rel="canonical" href="https://vyrn-lang.github.io/guide/records.html"><meta property="og:site_name" content="Vyrn"><meta property="og:type" content="article"><meta property="og:title" content="Records, enums, match"><meta property="og:description" content="A record is a shape. An enum is a choice. match covers every case, and the compiler counts them."><meta property="og:url" content="https://vyrn-lang.github.io/guide/records.html"><meta property="article:section" content="Docs"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="Records, enums, match"><meta name="twitter:description" content="A record is a shape. An enum is a choice. match covers every case, and the compiler counts them."><script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Records, enums, match","description":"A record is a shape. An enum is a choice. match covers every case, and the compiler counts them.","url":"https://vyrn-lang.github.io/guide/records.html","inLanguage":"en"}</script></head>
+<body>
+<div class="shell"><a class="skip" href="#main">Skip to content</a><header class="masthead"><a href="../" class="wordmark">vyrn</a><details class="menu"><summary>Menu</summary><nav class="nav" aria-label="Site"><a href="../guide.html" data-key="/guide.html" aria-current="page">Docs</a><a href="../explore.html" data-key="/explore.html">Explore</a><a href="../play.html" data-key="/play.html">Play</a></nav></details><div class="tools"><button type="button" class="find" data-find-open="" aria-label="Search this site. Press slash."><svg viewBox="0 0 32 32" width="1em" height="1em" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><circle cx="14" cy="14" r="12"/><path d="m23 23l7 7"/></g></svg> <span class="word">Search<span class="hint"> docs, reference…</span></span> <kbd class="key">/</kbd></button><a class="gh" href="https://github.com/vyrn-lang/vyrn"><svg viewBox="0 0 64 64" width="1em" height="1em" role="img" aria-label="Vyrn on GitHub"><path fill="currentColor" d="M32 0C14 0 0 14 0 32c0 21 19 30 22 30c2 0 2-1 2-2v-5c-7 2-10-2-11-5c0 0 0-1-2-3c-1-1-5-3-1-3c3 0 5 4 5 4c3 4 7 3 9 2c0-2 2-4 2-4c-8-1-14-4-14-15q0-6 3-9s-2-4 0-9c0 0 5 0 9 4c3-2 13-2 16 0c4-4 9-4 9-4c2 7 0 9 0 9q3 3 3 9c0 11-7 14-14 15c1 1 2 3 2 6v8c0 1 0 2 2 2c3 0 22-9 22-30C64 14 50 0 32 0"/></svg></a><span class="slot"><button type="button" class="theme" data-theme-cycle aria-label="Theme: System. Press to use Light.">System</button></span></div></header><nav class="subnav" data-nav-swap="subnav" aria-label="Documentation sections"><a href="../guide.html" aria-current="true"><svg viewBox="0 0 32 32" width="1em" height="1em" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7S9 1 2 6v22c7-5 14 0 14 0s7-5 14 0V6c-7-5-14 1-14 1m0 0v21"/></svg>Guide</a><a href="../web.html"><svg viewBox="0 0 32 32" width="1em" height="1em" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 8s6-6 9-3s2 7-3 11s-8 5-10 1m0 7s-6 6-9 3s-2-7 3-11s8-5 10-1"/></svg>Web</a><a href="../tooling.html"><svg viewBox="0 0 32 32" width="1em" height="1em" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M13 2v4l-2 1l-3-3l-4 4l3 3l-1 2H2v6h4l1 2l-3 3l4 4l3-3l2 1v4h6v-4l2-1l3 3l4-4l-3-3l1-2h4v-6h-4l-1-2l3-3l-4-4l-3 3l-2-1V2Z"/><circle cx="16" cy="16" r="4"/></g></svg>Tooling</a><a href="../docs.html"><svg viewBox="0 0 32 32" width="1em" height="1em" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m10 9l-7 8l7 8M22 9l7 8l-7 8M18 7l-4 20"/></svg>Reference</a><a href="../benchmarks.html"><svg viewBox="0 0 32 32" width="1em" height="1em" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16h7l3 13l4-26l3 13h7"/></svg>Benchmarks</a></nav><div class="findbox" data-find="" hidden=""><div class="findpanel" role="dialog" aria-modal="true" aria-label="Search"><div class="findrow"><svg viewBox="0 0 32 32" width="1em" height="1em" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><circle cx="14" cy="14" r="12"/><path d="m23 23l7 7"/></g></svg><input type="search" data-find-input="" aria-label="Search the docs, the reference, packages" placeholder="Search the docs, the reference, packages" autocomplete="off" spellcheck="false" aria-controls="find-results"><kbd class="key">esc</kbd></div><div class="findtabs" data-find-tabs=""><button type="button" class="on" data-sect="">All</button><button type="button" data-sect="Docs">Docs</button><button type="button" data-sect="Reference">Reference</button><button type="button" data-sect="Packages">Packages</button><button type="button" data-sect="Releases">Releases</button><span class="keys"><kbd class="key">tab</kbd> section <kbd class="key">↑</kbd><kbd class="key">↓</kbd> move <kbd class="key">↵</kbd> open</span></div><div id="find-results" data-find-results="" role="listbox" aria-label="Results"></div><p class="cap" data-find-note="">Type to search, or try <button type="button" data-try="">Map</button>, <button type="button" data-try="">readLine</button> or <button type="button" data-try="">panic</button>.</p></div></div><noscript><p class="notice">Search needs JavaScript. <a href="../docs.html">The reference landing</a> filters its own module list without it.</p></noscript><div id="root"><div id="main" class="skip-target" tabindex="-1"></div><main class="page docs"><aside class="docstree"><details class="treebox"><summary>The guide</summary><div class="treegroup" data-key="First steps"><p class="eyebrow"><span class="slot"><svg viewBox="0 0 32 32" width="1em" height="1em" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7S9 1 2 6v22c7-5 14 0 14 0s7-5 14 0V6c-7-5-14 1-14 1m0 0v21"/></svg></span>First steps</p><a href="../guide/getting-started.html" aria-current="" data-key="/guide/getting-started.html">Getting started</a><a href="../guide/coming-from.html" aria-current="" data-key="/guide/coming-from.html">Coming from another language</a><a href="../guide/values.html" aria-current="" data-key="/guide/values.html">Values and types</a><a href="../guide/records.html" aria-current="page" data-key="/guide/records.html">Records, enums, match</a></div><div class="treegroup" data-key="The memory model"><p class="eyebrow"><span class="slot"><svg viewBox="0 0 32 32" width="1em" height="1em" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 10v18h24V10M2 4v6h28V4Zm10 11h8"/></svg></span>The memory model</p><a href="../guide/ownership.html" aria-current="" data-key="/guide/ownership.html">Ownership, consume, regions</a><a href="../guide/collections.html" aria-current="" data-key="/guide/collections.html">Collections and Map</a></div><div class="treegroup" data-key="Abstractions"><p class="eyebrow"><span class="slot"><svg viewBox="0 0 32 32" width="1em" height="1em" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m10 9l-7 8l7 8M22 9l7 8l-7 8M18 7l-4 20"/></svg></span>Abstractions</p><a href="../guide/protocols.html" aria-current="" data-key="/guide/protocols.html">Protocols and generics</a><a href="../guide/functions.html" aria-current="" data-key="/guide/functions.html">Function values and closures</a><a href="../guide/modules.html" aria-current="" data-key="/guide/modules.html">Modules and imports</a></div><div class="treegroup" data-key="Programs"><p class="eyebrow"><span class="slot"><svg viewBox="0 0 32 32" width="1em" height="1em" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16h7l3 13l4-26l3 13h7"/></svg></span>Programs</p><a href="../guide/generators.html" aria-current="" data-key="/guide/generators.html">gen fns and generators</a><a href="../guide/errors.html" aria-current="" data-key="/guide/errors.html">Errors: panic, Fallible, ?</a><a href="../guide/cli.html" aria-current="" data-key="/guide/cli.html">CLI apps</a></div></details></aside><div class="crumbrow"><nav class="crumbs" aria-label="Breadcrumb"><a href="../guide.html">Guide</a><span>Chapter 4 of 12</span></nav><div class="docutils"><a class="btn" href="../guide/records.md" data-copy-md="">Copy page</a><details class="pagemenu"><summary aria-label="More page actions"><span class="gl">▾</span></summary><div class="acts"><a href="../guide/records.md" data-copy-md=""><span class="ic"><svg viewBox="0 0 32 32" width="1em" height="1em" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2v4h8V2zm-1 2H6v26h20V4h-5"/></svg></span><span class="t"><span>Copy page</span><span class="d">Markdown, ready to paste into an LLM</span></span></a><a href="../guide/records.md"><span class="ic"><svg viewBox="0 0 32 32" width="1em" height="1em" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 2v28h20V10l-8-8Zm12 0v8h8"/></svg></span><span class="t"><span>View as Markdown</span><span class="d">This page as plain text</span></span></a><a href="https://claude.ai/new?q=Read%20https%3A%2F%2Fvyrn-lang.github.io%2Fguide%2Frecords.md%20%28the%20Vyrn%20documentation%20page%20%22Records%2C%20enums%2C%20match%22%29%20so%20I%20can%20ask%20questions%20about%20it." rel="noopener"><span class="ic"><svg viewBox="0 0 32 32" width="1em" height="1em" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 9H3v20h20V18M18 4h10v10m0-10L14 18"/></svg></span><span class="t"><span>Open in Claude</span><span class="d">Ask Claude about this page</span></span></a></div></details></div></div><section class="hero"><h1 class="display">Records, enums, match</h1><p class="lede">A record is a shape. An enum is a choice. <code>match</code> covers every case, and the compiler counts them.</p></section><section class="band" id="records" data-key="records"><h2>Records</h2><div><p>A record type lists fields. Compatibility is by shape: a value with more fields fits where fewer are wanted, with no cast and no base class. This is width subtyping, and it is the whole inheritance story.</p><p>Fields of a <code>mut</code> binding are assigned in place. A record that owns heap data — a <code>String</code> field, for example — is moved by an assignment, so <code>copy()</code> is how both sides keep a value.</p><div class="plate block play" data-widget="playhero"><div class="plate-head"><a class="eyebrow src" href="https://github.com/vyrn-lang/vyrn/blob/main/site/guide/records.vyrn">site/guide/records.vyrn</a><span class="spacer"></span><span class="eyebrow" data-play-status>Built</span><button type="button" class="btn jsonly" data-play-reset>Reset</button><button type="button" class="btn primary jsonly" data-play-run title="Ctrl+Enter">Run</button></div><div class="editor" data-play-editor><pre class="code hl" aria-hidden="true"><code data-play-hl><span class="c">// A record type is a shape. A value with more fields fits where fewer are</span>
+<span class="c">// wanted, with no cast and no inheritance.</span>
+<span class="k">import</span> { joinWith } <span class="k">from</span> <span class="s">&quot;std/strings&quot;</span>
+
+<span class="k">type</span> <span class="t">Named</span> = { name: <span class="t">String</span> }
+<span class="k">type</span> <span class="t">User</span> = { name: <span class="t">String</span>, age: <span class="t">Int64</span> }
+
+<span class="k">fn</span> <span class="f">greet</span>(who: <span class="t">Named</span>) -&gt; <span class="t">String</span> {
+    <span class="k">return</span> <span class="s">&quot;hello, </span><span class="i">\{</span>who.name<span class="i">}</span><span class="s">&quot;</span>
+}
+
+<span class="k">export</span> <span class="k">fn</span> <span class="f">demo</span>() -&gt; <span class="t">String</span> {
+    <span class="k">let</span> u = <span class="t">User</span> { name: <span class="s">&quot;Ada&quot;</span>, age: <span class="n">36</span> }
+    <span class="k">let</span> <span class="k">mut</span> next = u.<span class="f">copy</span>() <span class="c">// a copy, because both `u` and `next` are read below</span>
+    next.age = next.age + <span class="n">1</span>
+
+    <span class="k">return</span> <span class="f">joinWith</span>([<span class="f">greet</span>(u), <span class="s">&quot;was </span><span class="i">\{</span>u.age<span class="i">}</span><span class="s">&quot;</span>, <span class="s">&quot;now </span><span class="i">\{</span>next.age<span class="i">}</span><span class="s">&quot;</span>], <span class="s">&quot;\n&quot;</span>)
+}
+
+<span class="k">fn</span> <span class="f">main</span>() -&gt; <span class="t">Int64</span> {
+    <span class="f">print</span>(<span class="f">demo</span>())
+    <span class="k">return</span> <span class="n">0</span>
+}</code></pre><textarea data-play-src readonly="readonly" rows="23" spellcheck="false" autocapitalize="off" autocorrect="off" autocomplete="off" wrap="off" aria-label="Vyrn source, editable after the first press">// A record type is a shape. A value with more fields fits where fewer are
+// wanted, with no cast and no inheritance.
+import { joinWith } from "std/strings"
+
+type Named = { name: String }
+type User = { name: String, age: Int64 }
+
+fn greet(who: Named) -&gt; String {
+    return "hello, \{who.name}"
+}
+
+export fn demo() -&gt; String {
+    let u = User { name: "Ada", age: 36 }
+    let mut next = u.copy() // a copy, because both `u` and `next` are read below
+    next.age = next.age + 1
+
+    return joinWith([greet(u), "was \{u.age}", "now \{next.age}"], "\n")
+}
+
+fn main() -&gt; Int64 {
+    print(demo())
+    return 0
+}
+</textarea></div><div class="diags" data-play-diags hidden="hidden" aria-live="polite"></div><div class="out" data-play-out aria-live="polite"><span class="ol">hello, Ada</span>
+<span class="ol">was 36</span>
+<span class="ol">now 37</span></div></div></div></section><section class="band" id="enums" data-key="enums"><h2>Enums</h2><div><p>An enum value is exactly one variant, and a variant can carry a payload. There is no tag field to keep in step with a union, because the tag is the type.</p><p><code>match</code> must cover every variant. Leave one out and the file does not compile. That is what makes an enum safe to extend: add a variant, and the compiler lists every place that has to answer for it.</p><div class="plate block play" data-widget="playhero"><div class="plate-head"><a class="eyebrow src" href="https://github.com/vyrn-lang/vyrn/blob/main/site/guide/enums.vyrn">site/guide/enums.vyrn</a><span class="spacer"></span><span class="eyebrow" data-play-status>Built</span><button type="button" class="btn jsonly" data-play-reset>Reset</button><button type="button" class="btn primary jsonly" data-play-run title="Ctrl+Enter">Run</button></div><div class="editor" data-play-editor><pre class="code hl" aria-hidden="true"><code data-play-hl><span class="c">// A value is exactly one variant. A variant may carry a payload, and `match`</span>
+<span class="c">// must cover every one — leave an arm out and the file does not compile.</span>
+<span class="k">import</span> { joinWith } <span class="k">from</span> <span class="s">&quot;std/strings&quot;</span>
+
+<span class="k">type</span> <span class="t">Shape</span> = <span class="k">enum</span> {
+    <span class="t">Circle</span>(<span class="t">Int64</span>),
+    <span class="t">Rect</span>(<span class="t">Int64</span>, <span class="t">Int64</span>),
+    <span class="t">Point</span> }
+
+<span class="k">fn</span> <span class="f">describeShape</span>(s: <span class="t">Shape</span>) -&gt; <span class="t">String</span> {
+    <span class="k">return</span> <span class="k">match</span> s {
+        <span class="t">Circle</span>(r) =&gt; <span class="s">&quot;circle of radius </span><span class="i">\{</span>r<span class="i">}</span><span class="s">&quot;</span>,
+        <span class="t">Rect</span>(w, h) =&gt; <span class="s">&quot;rect </span><span class="i">\{</span>w<span class="i">}</span><span class="s"> by </span><span class="i">\{</span>h<span class="i">}</span><span class="s">&quot;</span>,
+        <span class="t">Point</span> =&gt; <span class="s">&quot;a point&quot;</span>,
+    }
+}
+
+<span class="k">export</span> <span class="k">fn</span> <span class="f">demo</span>() -&gt; <span class="t">String</span> {
+    <span class="k">let</span> shapes: <span class="t">Array</span>&lt;<span class="t">Shape</span>&gt; = [<span class="t">Circle</span>(<span class="n">2</span>), <span class="t">Rect</span>(<span class="n">3</span>, <span class="n">4</span>), <span class="t">Point</span>]
+    <span class="k">let</span> <span class="k">mut</span> out: <span class="t">Array</span>&lt;<span class="t">String</span>&gt; = []
+    <span class="k">for</span> s <span class="k">in</span> shapes {
+        out.<span class="f">push</span>(<span class="f">describeShape</span>(s))
+    }
+    <span class="k">return</span> <span class="f">joinWith</span>(out, <span class="s">&quot;\n&quot;</span>)
+}
+
+<span class="k">fn</span> <span class="f">main</span>() -&gt; <span class="t">Int64</span> {
+    <span class="f">print</span>(<span class="f">demo</span>())
+    <span class="k">return</span> <span class="n">0</span>
+}</code></pre><textarea data-play-src readonly="readonly" rows="30" spellcheck="false" autocapitalize="off" autocorrect="off" autocomplete="off" wrap="off" aria-label="Vyrn source, editable after the first press">// A value is exactly one variant. A variant may carry a payload, and `match`
+// must cover every one — leave an arm out and the file does not compile.
+import { joinWith } from "std/strings"
+
+type Shape = enum {
+    Circle(Int64),
+    Rect(Int64, Int64),
+    Point }
+
+fn describeShape(s: Shape) -&gt; String {
+    return match s {
+        Circle(r) =&gt; "circle of radius \{r}",
+        Rect(w, h) =&gt; "rect \{w} by \{h}",
+        Point =&gt; "a point",
+    }
+}
+
+export fn demo() -&gt; String {
+    let shapes: Array&lt;Shape&gt; = [Circle(2), Rect(3, 4), Point]
+    let mut out: Array&lt;String&gt; = []
+    for s in shapes {
+        out.push(describeShape(s))
+    }
+    return joinWith(out, "\n")
+}
+
+fn main() -&gt; Int64 {
+    print(demo())
+    return 0
+}
+</textarea></div><div class="diags" data-play-diags hidden="hidden" aria-live="polite"></div><div class="out" data-play-out aria-live="polite"><span class="ol">circle of radius 2</span>
+<span class="ol">rect 3 by 4</span>
+<span class="ol">a point</span></div></div></div></section><section class="band" id="match" data-key="match"><h2>match expressions</h2><div><p><code>match</code> answers with a value, so a binding takes it directly and there is no mutable slot to fill in each arm.</p><p><code>if let</code> reads one variant when the others need no arm. <code>while let</code> does the same in a loop, and stops when the pattern stops matching.</p><div class="plate block play" data-widget="playhero"><div class="plate-head"><a class="eyebrow src" href="https://github.com/vyrn-lang/vyrn/blob/main/site/guide/matching.vyrn">site/guide/matching.vyrn</a><span class="spacer"></span><span class="eyebrow" data-play-status>Built</span><button type="button" class="btn jsonly" data-play-reset>Reset</button><button type="button" class="btn primary jsonly" data-play-run title="Ctrl+Enter">Run</button></div><div class="editor" data-play-editor><pre class="code hl" aria-hidden="true"><code data-play-hl><span class="c">// `match` is an expression: it answers with a value, so a binding can take it</span>
+<span class="c">// directly. `if let` reads one variant when the others need no arm of their own.</span>
+<span class="k">import</span> { joinWith, indexOf } <span class="k">from</span> <span class="s">&quot;std/strings&quot;</span>
+
+<span class="k">type</span> <span class="t">Level</span> = <span class="k">enum</span> {
+    <span class="t">Info</span>,
+    <span class="t">Warn</span>(<span class="t">String</span>) }
+
+<span class="k">fn</span> <span class="f">found</span>(haystack: <span class="t">String</span>, needle: <span class="t">String</span>) -&gt; <span class="t">String</span> {
+    <span class="k">if</span> <span class="k">let</span> <span class="t">Some</span>(at) = <span class="f">indexOf</span>(haystack, needle) {
+        <span class="k">return</span> <span class="s">&quot;</span><span class="i">\{</span>needle<span class="i">}</span><span class="s"> at byte </span><span class="i">\{</span>at<span class="i">}</span><span class="s">&quot;</span>
+    }
+    <span class="k">return</span> <span class="s">&quot;</span><span class="i">\{</span>needle<span class="i">}</span><span class="s"> is not there&quot;</span>
+}
+
+<span class="k">export</span> <span class="k">fn</span> <span class="f">demo</span>() -&gt; <span class="t">String</span> {
+    <span class="k">let</span> l: <span class="t">Level</span> = <span class="t">Warn</span>(<span class="s">&quot;disk is filling&quot;</span>)
+    <span class="k">let</span> line = <span class="k">match</span> l {
+        <span class="t">Info</span> =&gt; <span class="s">&quot;nothing to say&quot;</span>,
+        <span class="t">Warn</span>(what) =&gt; <span class="s">&quot;warning: </span><span class="i">\{</span>what<span class="i">}</span><span class="s">&quot;</span>,
+    }
+    <span class="k">return</span> <span class="f">joinWith</span>([line, <span class="f">found</span>(<span class="s">&quot;hello, world&quot;</span>, <span class="s">&quot;world&quot;</span>), <span class="f">found</span>(<span class="s">&quot;hello, world&quot;</span>, <span class="s">&quot;zebra&quot;</span>)], <span class="s">&quot;\n&quot;</span>)
+}
+
+<span class="k">fn</span> <span class="f">main</span>() -&gt; <span class="t">Int64</span> {
+    <span class="f">print</span>(<span class="f">demo</span>())
+    <span class="k">return</span> <span class="n">0</span>
+}</code></pre><textarea data-play-src readonly="readonly" rows="28" spellcheck="false" autocapitalize="off" autocorrect="off" autocomplete="off" wrap="off" aria-label="Vyrn source, editable after the first press">// `match` is an expression: it answers with a value, so a binding can take it
+// directly. `if let` reads one variant when the others need no arm of their own.
+import { joinWith, indexOf } from "std/strings"
+
+type Level = enum {
+    Info,
+    Warn(String) }
+
+fn found(haystack: String, needle: String) -&gt; String {
+    if let Some(at) = indexOf(haystack, needle) {
+        return "\{needle} at byte \{at}"
+    }
+    return "\{needle} is not there"
+}
+
+export fn demo() -&gt; String {
+    let l: Level = Warn("disk is filling")
+    let line = match l {
+        Info =&gt; "nothing to say",
+        Warn(what) =&gt; "warning: \{what}",
+    }
+    return joinWith([line, found("hello, world", "world"), found("hello, world", "zebra")], "\n")
+}
+
+fn main() -&gt; Int64 {
+    print(demo())
+    return 0
+}
+</textarea></div><div class="diags" data-play-diags hidden="hidden" aria-live="polite"></div><div class="out" data-play-out aria-live="polite"><span class="ol">warning: disk is filling</span>
+<span class="ol">world at byte 7</span>
+<span class="ol">zebra is not there</span></div></div></div></section><nav class="pager" aria-label="Chapters"><a class="prev" href="../guide/values.html"><span class="eyebrow">Previous</span>Values and types</a><a class="next" href="../guide/ownership.html"><span class="eyebrow">Next</span>Ownership, consume, regions</a></nav><aside class="onpage"><p class="eyebrow">On this page</p><a href="#records" data-key="records">Records</a><a href="#enums" data-key="enums">Enums</a><a href="#match" data-key="match">match expressions</a></aside></main><footer class="foot"><span>Copyright 2026 vyrn-lang. MIT or Apache-2.0.</span><a href="../releases.html"><svg viewBox="0 0 32 32" width="1em" height="1em" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><circle cx="24" cy="8" r="2"/><path d="M2 18L18 2h12v12L14 30Z"/></g></svg> Releases</a><span>Early. No versioned release yet.</span></footer></div></div>
+</body>
+</html>
