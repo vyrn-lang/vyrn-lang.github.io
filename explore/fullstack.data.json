@@ -1,0 +1,1 @@
+{"page":"/explore/:package","title":"examples/fullstack — the Vyrn registry","props":{"slug":"fullstack","name":"examples/fullstack","kind":"project","summary":"The wire types: the validated records and scalars that cross the RPC boundary.","exports":7,"deps":4,"href":"/explore/fullstack.html"},"params":{"package":"fullstack"}}

@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en" data-landing>
+<head><link rel="alternate" type="application/rss+xml" title="Vyrn releases" href="releases.xml"><link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta charset="utf-8"><meta name="color-scheme" content="light dark"><meta name="theme-color" media="(prefers-color-scheme: light)" content="oklch(0.97 0.005 255)"><meta name="theme-color" media="(prefers-color-scheme: dark)" content="oklch(0.115 0.01 262)"><script>try{var r=document.documentElement,t=localStorage.getItem("vyrn.theme");if(t==="light"||t==="dark")r.setAttribute("data-theme",t);if(sessionStorage.getItem("vyrn.mast")==="compact")r.classList.add("idecompact");r.setAttribute("data-js","on")}catch(e){document.documentElement.setAttribute("data-js","on")}</script>
+<title>Playground — Vyrn</title>
+<link rel="stylesheet" href="style.css"><script type="module" src="theme.js"></script><script type="module" src="widgets.js"></script><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Write Vyrn in the page and run it. The compiler front end is WebAssembly and the program never leaves your browser."><link rel="canonical" href="https://vyrn-lang.github.io/play.html"><meta property="og:site_name" content="Vyrn"><meta property="og:type" content="website"><meta property="og:title" content="Playground"><meta property="og:description" content="Write Vyrn in the page and run it. The compiler front end is WebAssembly and the program never leaves your browser."><meta property="og:url" content="https://vyrn-lang.github.io/play.html"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="Playground"><meta name="twitter:description" content="Write Vyrn in the page and run it. The compiler front end is WebAssembly and the program never leaves your browser."></head>
+<body>
+<div class="shell"><a class="skip" href="#main">Skip to content</a><header class="masthead"><a href="./" class="wordmark">vyrn</a><details class="menu"><summary>Menu</summary><nav class="nav" aria-label="Site"><a href="guide.html" data-key="/guide.html">Docs</a><a href="explore.html" data-key="/explore.html">Explore</a><a href="play.html" data-key="/play.html" aria-current="page">Play</a></nav></details><div class="tools"><button type="button" class="find" data-find-open="" aria-label="Search this site. Press slash."><svg viewBox="0 0 32 32" width="1em" height="1em" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><circle cx="14" cy="14" r="12"/><path d="m23 23l7 7"/></g></svg> <span class="word">Search<span class="hint"> docs, reference…</span></span> <kbd class="key">/</kbd></button><a class="gh" href="https://github.com/vyrn-lang/vyrn"><svg viewBox="0 0 64 64" width="1em" height="1em" role="img" aria-label="Vyrn on GitHub"><path fill="currentColor" d="M32 0C14 0 0 14 0 32c0 21 19 30 22 30c2 0 2-1 2-2v-5c-7 2-10-2-11-5c0 0 0-1-2-3c-1-1-5-3-1-3c3 0 5 4 5 4c3 4 7 3 9 2c0-2 2-4 2-4c-8-1-14-4-14-15q0-6 3-9s-2-4 0-9c0 0 5 0 9 4c3-2 13-2 16 0c4-4 9-4 9-4c2 7 0 9 0 9q3 3 3 9c0 11-7 14-14 15c1 1 2 3 2 6v8c0 1 0 2 2 2c3 0 22-9 22-30C64 14 50 0 32 0"/></svg></a><span class="slot"><button type="button" class="theme" data-theme-cycle aria-label="Theme: System. Press to use Light.">System</button></span></div></header><div class="findbox" data-find="" hidden=""><div class="findpanel" role="dialog" aria-modal="true" aria-label="Search"><div class="findrow"><svg viewBox="0 0 32 32" width="1em" height="1em" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><circle cx="14" cy="14" r="12"/><path d="m23 23l7 7"/></g></svg><input type="search" data-find-input="" aria-label="Search the docs, the reference, packages" placeholder="Search the docs, the reference, packages" autocomplete="off" spellcheck="false" aria-controls="find-results"><kbd class="key">esc</kbd></div><div class="findtabs" data-find-tabs=""><button type="button" class="on" data-sect="">All</button><button type="button" data-sect="Docs">Docs</button><button type="button" data-sect="Reference">Reference</button><button type="button" data-sect="Packages">Packages</button><button type="button" data-sect="Releases">Releases</button><span class="keys"><kbd class="key">tab</kbd> section <kbd class="key">↑</kbd><kbd class="key">↓</kbd> move <kbd class="key">↵</kbd> open</span></div><div id="find-results" data-find-results="" role="listbox" aria-label="Results"></div><p class="cap" data-find-note="">Type to search, or try <button type="button" data-try="">Map</button>, <button type="button" data-try="">readLine</button> or <button type="button" data-try="">panic</button>.</p></div></div><noscript><p class="notice">Search needs JavaScript. <a href="docs.html">The reference landing</a> filters its own module list without it.</p></noscript><div id="root"><div id="main" class="skip-target" tabindex="-1"></div><main class="page play ide" data-widget="play"><h1 class="sr-only">Playground</h1><div class="idewrap"><aside class="ideside" aria-label="Files"><p class="sidehead"><span data-play-scope="">Explorer</span><span class="sideacts"><button type="button" class="sideact sharedonly" data-play-keep="" aria-label="Save this project to my files" title="Save this project to my files" data-ico="download"></button><button type="button" class="sideact sharedonly" data-play-discard="" aria-label="Close the shared project" title="Close the shared project" data-ico="close"></button><button type="button" class="sideact" data-play-newfile="" aria-label="New file (Alt+Insert)" title="New file (Alt+Insert)" data-ico="file-plus"></button><button type="button" class="sideact" data-play-newfolder="" aria-label="New folder" title="New folder" data-ico="folder-plus"></button><button type="button" class="sideact" data-play-upload="" aria-label="Upload files" title="Upload files" data-ico="upload"></button><button type="button" class="sideact" data-play-download="" aria-label="Download project (zip)" title="Download project (zip)" data-ico="download"></button><button type="button" class="sideact" data-play-share="" aria-label="Copy a link to this project" title="Copy a link to this project" data-ico="link"></button></span></p><div class="filetree" data-play-files=""></div><input type="file" multiple="" hidden="hidden" data-play-uploadinput="" aria-label="Upload files" accept=".vyrn,.txt,.md,.json"></aside><div class="sash v" data-play-sash="side" aria-hidden="true"></div><div class="idemain"><div class="idebar"><span class="idetabs" data-play-tabs=""></span><span class="spacer"></span><button type="button" class="btn ib primary" data-play-run="" disabled="disabled" aria-label="Run (Shift+F10)" title="Run (Shift+F10)" data-ico="play"></button></div><div class="idecrumbs" data-play-crumbs="" aria-hidden="true">files</div><div class="welcome" data-play-welcome="" hidden="hidden"><h2>Start</h2><p class="wnote">The compiler front end runs in this tab as WebAssembly. Files are stored in this browser.</p><button type="button" class="tpl new" data-play-newfile=""><span class="tn">New file</span><span class="d">An empty .vyrn, named by you</span></button><p class="eyebrow">Templates</p><div class="tplgrid"><button type="button" class="tpl" data-play-tpl="hello" data-key="hello"><span class="tn">hello.vyrn</span><span class="d">Hello</span></button><button type="button" class="tpl" data-play-tpl="types" data-key="types"><span class="tn">types.vyrn</span><span class="d">Types that carry their rule</span></button><button type="button" class="tpl" data-play-tpl="ownership" data-key="ownership"><span class="tn">ownership.vyrn</span><span class="d">Ownership is a word on a parameter</span></button><button type="button" class="tpl" data-play-tpl="fib" data-key="fib"><span class="tn">fib.vyrn</span><span class="d">Recursion</span></button><button type="button" class="tpl" data-play-tpl="input" data-key="input"><span class="tn">input.vyrn</span><span class="d">Reading standard input</span></button><button type="button" class="tpl" data-play-tpl="trap" data-key="trap"><span class="tn">trap.vyrn</span><span class="d">A trap, and the exit code</span></button></div></div><div class="editor" data-play-editor=""><div class="curline" data-play-curline="" aria-hidden="true"></div><div class="gutter" data-play-gutter="" aria-hidden="true"></div><pre class="code hl" aria-hidden="true"><code data-play-hl=""></code></pre><textarea data-play-src="" spellcheck="false" autocapitalize="off" autocorrect="off" autocomplete="off" wrap="off" aria-label="Vyrn source"></textarea><div class="minimap" data-play-minimap="" aria-hidden="true"><pre class="mmtext" data-play-mmtext=""></pre><div class="mmview" data-play-mmview=""></div></div></div></div><div class="sash h" data-play-sash="panel" aria-hidden="true"></div><div class="idepanel"><div class="paneltabs" role="tablist" aria-label="Panel"><button type="button" class="ptab" data-play-ptab="problems">Problems<span class="badge" data-play-badge="" hidden="hidden"></span></button><button type="button" class="ptab on" data-play-ptab="output">Output</button><button type="button" class="ptab" data-play-ptab="input">Input</button></div><div class="pane" data-play-pane="problems" hidden="hidden"><div class="diags" data-play-diags="" hidden="hidden" aria-live="polite"></div><p class="cap dim" data-play-noprob="">No problems. The compiler will list what it refuses here.</p></div><div class="pane" data-play-pane="output"><div class="out" data-play-out="" aria-live="polite"><span class="dim">Nothing has run yet.</span></div></div><div class="pane" data-play-pane="input" hidden="hidden"><textarea data-play-stdin="" spellcheck="false" aria-label="Standard input"></textarea><p class="cap">These lines reach <code>readLine()</code>, one per call. After the last one it answers <code>None</code>.</p></div></div><div class="idestatus"><span class="idehelp" tabindex="0" aria-describedby="playtip">?<span class="tipbox" id="playtip" role="tooltip">The compiler runs in this tab as WebAssembly, and so does the program it compiles. Nothing is uploaded. A program is stopped after five seconds, and a recursion that outgrows the tab's stack stops with the error <code>vyrn run</code> gives. The tab has no filesystem and no arguments. One file runs, plus <code>std/</code>, which is built in.</span></span><span class="stat" data-play-status="">Loading the compiler…</span><span class="errs"><span aria-hidden="true">⊗</span> <span data-play-errs="">0</span></span><span class="spacer"></span><span data-play-lncol="">Ln 1, Col 1</span><span>Spaces: 2</span><span>UTF-8</span><span>Vyrn</span><span>Shift+F10 Run</span></div></div><div hidden="hidden" data-play-examples=""><pre data-play-example="hello" data-key="hello">fn main() -&gt; Int64 {
+    print(&quot;hello&quot;)
+    return 0
+}
+</pre><pre data-play-example="types" data-key="types">type Age = Int64 where value &gt;= 18
+
+fn admit(n: Int64) -&gt; Int64 {
+    // `Age?(n)` is None when the rule fails, so untrusted input never traps.
+    return match Age?(n) {
+        Some(a) =&gt; a,
+        None =&gt; 0 - 1,
+    }
+}
+
+fn main() -&gt; Int64 {
+    print(admit(30))
+    print(admit(5))
+    // Uncomment the next line. The compiler refuses it, and says why.
+    // let bad = Age(5)
+    return 0
+}
+</pre><pre data-play-example="ownership" data-key="ownership">type Ticket = { id: Int64, seats: Int64 }
+
+fn seatCount(t: read Ticket) -&gt; Int64 { return t.seats }
+fn addSeat(t: modify Ticket) { t.seats = t.seats + 1 }
+fn redeem(t: consume Ticket) -&gt; Int64 { return t.id }
+
+fn main() -&gt; Int64 {
+    let mut t = Ticket { id: 7, seats: 2 }
+    print(seatCount(t))
+    addSeat(t)
+    print(seatCount(t))
+    print(redeem(t))
+    // `t` was consumed above. Name it again and the compiler refuses:
+    // print(seatCount(t))
+    return 0
+}
+</pre><pre data-play-example="fib" data-key="fib">fn fib(n: Int64) -&gt; Int64 {
+    if n &lt; 2 { return n }
+    return fib(n - 1) + fib(n - 2)
+}
+
+fn main() -&gt; Int64 {
+    let mut i = 0
+    while i &lt;= 15 {
+        print(fib(i))
+        i = i + 1
+    }
+    return 0
+}
+</pre><pre data-play-example="input" data-key="input">// The lines in the standard input box below arrive here, one per call.
+// At the end of them `readLine()` answers None, exactly as a pipe does.
+fn main() -&gt; Int64 {
+    let mut n = 0
+    while let Some(line) = readLine() {
+        print(&quot;\{n}: \{line}&quot;)
+        n = n + 1
+    }
+    print(&quot;\{n} line(s)&quot;)
+    return 0
+}
+</pre><pre data-play-example="trap" data-key="trap">// A trap writes to standard error and the program exits non-zero — the same
+// channels a terminal gives it.
+fn main() -&gt; Int64 {
+    print(&quot;before&quot;)
+    panic(&quot;this is a trap&quot;)
+    return 0
+}
+</pre><pre data-play-example-stdin="hello" data-key="hello"></pre><pre data-play-example-stdin="types" data-key="types"></pre><pre data-play-example-stdin="ownership" data-key="ownership"></pre><pre data-play-example-stdin="fib" data-key="fib"></pre><pre data-play-example-stdin="input" data-key="input">alpha
+beta
+gamma
+</pre><pre data-play-example-stdin="trap" data-key="trap"></pre></div></main><footer class="foot"><span>Copyright 2026 vyrn-lang. MIT or Apache-2.0.</span><a href="releases.html"><svg viewBox="0 0 32 32" width="1em" height="1em" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><circle cx="24" cy="8" r="2"/><path d="M2 18L18 2h12v12L14 30Z"/></g></svg> Releases</a><span>Early. No versioned release yet.</span></footer></div></div>
+</body>
+</html>
