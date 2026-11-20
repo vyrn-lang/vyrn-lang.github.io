@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<channel>
+<title>Vyrn releases</title>
+<link>https://vyrn-lang.github.io/releases.html</link>
+<atom:link href="https://vyrn-lang.github.io/releases.xml" rel="self" type="application/rss+xml"/>
+<description>Every published Vyrn release. None has been published, so the feed has no items.</description>
+<language>en</language>
+</channel>
+</rss>
