@@ -1,0 +1,148 @@
+# std/regex
+
+A regular expression that searches, counts and replaces.
+
+`=~` only answers whether a whole string matches a constant pattern. The walk is Vyrn, not a builtin, so every engine runs one source and agrees on offsets and counts.
+
+The language is `std/regex.syntax`, the one `=~` reads, and a pattern means what it means there: `.` is any character but `\n` and `\r`. `\d`, `\w`, `\s` and `\h` are shorthands, their capitals negate them, and `\N` is any character but `\n`. `\t`, `\n`, `\r`, `\f`, `\v`, `\a`, `\e` and `\cX` are control characters, and `\xHH`, `\x{H..}`, `\uHHHH`, `\u{H..}` and `\o{O..}` are code points. `\R` is a line break, `\Q` quotes the text up to `\E` or the end, and a backslash before ASCII punctuation makes it literal. Every other escape is refused. `{m,n}` repeats a term `m` to `n` times, each count at most 255, and a `?` after a repeat or a count makes it lazy. `(?:..)` groups without a name, `(?<n>..)`, `(?P<n>..)` and `(?'n'..)` name a group, and `(?#..)` is a comment. The flags `i` (ASCII case folding), `s` (`.` takes `\n` and `\r`) and `m` hold for the rest of a group after `(?ims-ims)`, or inside `(?ims-ims:..)`, and the empty pattern matches the empty string. A pattern with no backreference is a Thompson NFA with no backtracking, so the time is linear in the pattern size times the input. A search runs it as two lazy DFAs, one forward to a match's end and one back to its start: one table read per byte.
+
+`\1` to `\99`, `\gN` and `\g{N}` refer to a group by number, `\g{-N}` to the Nth group opened before it, and `\k<n>`, `\k'n'`, `\k{n}` and `(?P=n)` by name. A backreference matches the text its group spans, or the empty string where the group has not closed or took no part; under `i` it folds ASCII case. A reference to a group the pattern does not have is refused. `(?>..)` is an atomic group, which keeps the first way its body matches, and a `+` after a repeat or a count makes it possessive, an atomic group around it. A search of a pattern with a backreference, an atomic group or a possessive repeat backtracks from each offset in turn, which takes time exponential in the pattern in the worst case, so one call of `find`, `countMatches`, `replaceAll` or `captures` takes at most 1000000 steps and 1000 more per byte of the haystack, and past them it traps with `a backtracking pattern ran past its step budget of N steps`. A repeat that comes back to its loop at the offset it left it ends there, as a thread the NFA drops.
+
+`(?=..)`, `(?!..)`, `(?<=..)` and `(?<!..)` look ahead and behind, nested to any depth, and see the whole text, before `from` too. `^` and `$` are the text's ends, or a line's under `m`; `\A` and `\z` are the text's ends, and `\Z` is the end or a final `\n`. `\b` is a word boundary and `\B` any other position, `\<` and `\b{start}` a word's start, `\>` and `\b{end}` its end, and `\b{start-half}` and `\b{end-half}` the side of each that is no word character. A search of a pattern with an assertion first runs one pass per lookaround body over the text, and then the NFA, not the lazy DFAs: the time stays linear. A capturing group inside a lookaround is refused.
+
+`captures` gives a match's groups, numbered from 1 in the order of their `(`; `(?:..)` and `(?i:..)` do not count. `capture` and `named` read one.
+
+Leftmost-first, as Perl, PCRE and RE2 match: of the matches that start leftmost, the one the pattern prefers, so an earlier alternative wins, a greedy repeat takes as much as it can and a lazy one as little. `a|ab` against `ab` matches `a`.
+
+A class is a set of code points: it unites its members, ranges, POSIX classes such as `[:alpha:]` and nested classes, and `&&`, `--` and `~~` intersect, subtract and take the symmetric difference of the unions beside them. A literal, a class and `.` each match one whole character, so offsets are bytes and every match starts and ends on a character boundary.
+
+## Regex
+
+`type`, at line 112.
+
+```vyrn
+type Regex = {
+    fwd: Program,
+    rev: Program,
+    // The name of group `k` at `k - 1`, or "" for a group with none.
+    names: Array<String>,
+    // Each lookaround body, inner ones before the bodies that hold them.
+    looks: Array<Look>,
+    // Whether the pattern holds a backreference, an atomic group or a possessive
+    // repeat.
+    backtrack: Bool,
+}
+```
+
+A compiled pattern: `fwd` is the pattern after a loop over any byte, so a forward pass finds where the leftmost match ends, and `rev`, its reverse, reads that match back to its start. A pattern with a backreference is searched by backtracking over `fwd`, and its `rev` serves only its regular lookahead bodies.
+
+## Match
+
+`type`, at line 146.
+
+```vyrn
+type Match = { at: Int64, end: Int64 }
+```
+
+One match: a half-open byte range of the haystack.
+
+## compile
+
+`fn`, at line 1507.
+
+```vyrn
+fn compile(pattern: String) -> Result<Regex, String>
+```
+
+Compiles `pattern`, or says what is wrong with it. Compile once and search often: the whole cost of a pattern is paid here.
+
+## matchesWhole
+
+`fn`, at line 2343.
+
+```vyrn
+fn matchesWhole(hay: String, pattern: String) -> Bool
+```
+
+Whether all of `hay` matches `pattern`, which the compiler has checked: `=~` over a pattern only the backtracking search matches calls it. It traps past the step budget, as a search does.
+
+ponytail: compiles the pattern on every call. A memo in module state costs every search of this module 22% more fuel (regexredux, 2026-11-28); a memo the emitter owns, one slot per pattern, if a program matches often.
+
+## find
+
+`fn`, at line 2373.
+
+```vyrn
+fn find(re: Regex, hay: String, from: Int64) -> Option<Match>
+```
+
+The first match at or after `from`, or `None`. It reads `hay` from `from` to the match's end, and back to its start.
+
+## countMatches
+
+`fn`, at line 2380.
+
+```vyrn
+fn countMatches(re: Regex, hay: String) -> Int64
+```
+
+How many non-overlapping matches `re` has in `hay`: `aa` in `aaa` is one. An empty match advances by one byte.
+
+## replaceAll
+
+`fn`, at line 2394.
+
+```vyrn
+fn replaceAll(re: Regex, hay: String, with: String) -> String
+```
+
+`hay` with every non-overlapping match replaced by `with`, taken literally: `$1` is two characters, not a group.
+
+## Captures
+
+`type`, at line 2409.
+
+```vyrn
+type Captures = {
+    whole: Match,
+    // The offsets group `k` starts and ends at, at `2 * k - 2` and `2 * k - 1`, or
+    // -1 for a group that took no part. A group in a repeat spans its last turn.
+    spans: Array<Int64>,
+}
+```
+
+A match and the span of each group of its pattern that took part in it.
+
+## captures
+
+`fn`, at line 2418.
+
+```vyrn
+fn captures(re: Regex, hay: String, from: Int64) -> Option<Captures>
+```
+
+The first match at or after `from` and its groups, or `None`. The groups cost a Thompson simulation over the match alone; a backtracking search has them.
+
+## capture
+
+`fn`, at line 2430.
+
+```vyrn
+fn capture(c: Captures, k: Int64) -> Option<Match>
+```
+
+Group `k` of `c`: the whole match for 0, or `None` for a group that took no part or that the pattern does not have.
+
+## named
+
+`fn`, at line 2446.
+
+```vyrn
+fn named(re: Regex, c: Captures, name: String) -> Option<Match>
+```
+
+The group of `c` that `re` names `name`, or `None`.
+
+---
+
+From https://vyrn-lang.github.io/docs/std/regex.html — generated by `site/export.vyrn` from the Vyrn repository.

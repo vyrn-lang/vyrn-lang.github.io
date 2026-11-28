@@ -1,0 +1,1 @@
+{"page":"/explore/:package","title":"examples/shelf — the Vyrn registry","props":{"slug":"shelf","name":"examples/shelf","kind":"project","summary":"The shelf wire types: the record and scalar refinement types that cross the RPC boundary, in their own leaf module.","exports":14,"deps":10,"href":"/explore/shelf.html"},"params":{"package":"shelf"}}
